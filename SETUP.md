@@ -2,12 +2,36 @@
 
 Obsidian Markdown Vault 하나를 여러 AI가 함께 사용하는 장기기억 저장소로 만듭니다. 아래에서 `<VAULT>`는 본인 볼트의 절대경로(예: `/Users/me/Documents/AI-Memory`)로 바꿔 읽으세요.
 
+## 0. 사전 준비물 (처음이라면 여기부터)
+
+개발 도구가 하나도 없어도 됩니다. 아래 세 개만 설치하세요.
+
+1. **Claude Desktop 앱** — [claude.ai/download](https://claude.ai/download) 에서 설치하고 로그인.
+2. **Obsidian** — [obsidian.md](https://obsidian.md) 에서 설치 (무료).
+3. **Node.js** — [nodejs.org](https://nodejs.org) 에서 LTS 버전 설치. MCP 서버(이 저장소의 `.system`)를 돌리는 실행기입니다. 터미널에서 `node --version`이 숫자를 출력하면 준비 끝.
+
+이 저장소 받기 — 둘 중 편한 것으로:
+
+- **git이 있으면**: `git clone https://github.com/entryofficial-ctrl/obsidian-ai-memory`
+- **git이 없으면**: GitHub 페이지에서 초록색 **Code → Download ZIP**을 눌러 받고 압축을 풉니다.
+
+터미널은 macOS의 **터미널 앱**(Spotlight에서 "터미널" 검색) 기준입니다. 아래 명령들은 복사해서 붙여넣으면 됩니다.
+
+> Windows: Claude Desktop 설정 파일 경로만 다릅니다 — `%APPDATA%\Claude\claude_desktop_config.json`. 나머지 절차는 동일합니다.
+
 ## 1. Obsidian Vault 준비
 
-1. [Obsidian](https://obsidian.md)을 설치합니다.
-2. 볼트 폴더를 만들고 이 저장소의 `vault-starter/` 내용을 통째로 복사합니다.
-3. Obsidian에서 "Open folder as vault"로 그 폴더를 엽니다.
-4. Settings → Files & Links → "Automatically update internal links"를 켭니다 (노트 이름 변경 시 위키링크 자동 수리).
+볼트 폴더를 만들고 이 저장소의 `vault-starter/` 내용을 통째로 복사합니다. 받은 저장소 폴더 안에서:
+
+```bash
+mkdir -p ~/Documents/AI-Memory
+cp -R vault-starter/. ~/Documents/AI-Memory/
+```
+
+그다음 Obsidian에서:
+
+1. "Open folder as vault"로 `~/Documents/AI-Memory`를 엽니다.
+2. Settings → Files & Links → "Automatically update internal links"를 켭니다 (노트 이름 변경 시 위키링크 자동 수리).
 
 ## 2. 로컬 MCP 서버 준비
 
@@ -41,7 +65,14 @@ cd <VAULT> && git init
 
 ## 4. Claude Desktop (일반 Chat 탭) 연결
 
-`~/Library/Application Support/Claude/claude_desktop_config.json`의 `mcpServers`에 병합:
+설정 파일을 엽니다 (없으면 이 명령이 새로 만들어 줍니다):
+
+```bash
+touch ~/Library/Application\ Support/Claude/claude_desktop_config.json
+open -e ~/Library/Application\ Support/Claude/claude_desktop_config.json
+```
+
+`mcpServers`에 병합 (파일이 비어 있으면 아래를 통째로 붙여넣고 `<VAULT>`만 실제 경로로 교체):
 
 ```json
 {
