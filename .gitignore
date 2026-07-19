@@ -1,0 +1,4 @@
+node_modules/
+.system/logs/
+.system/state/
+.DS_Store
